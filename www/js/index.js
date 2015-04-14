@@ -27,6 +27,12 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+		$("#btnSalva").on("tap", scheda.save);
+		$("#btnInviaSchede").on("tap", scheda.send);
+		$("#btnExit").on("tap", app.exit);
+    },
+	deviceready: function() {
+        app.start();
     },
     // deviceready Event Handler
     //
@@ -46,4 +52,43 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+};
+var scheda = {
+     
+    save: function() {
+         
+        // Istruzioni per il salvataggio
+        navigator.notification.alert("Salvataggio effettuato!", 
+                                     function() {},
+                                     "Informazione",
+                                     "OK");
+    },
+	send: function() {
+         
+        navigator.notification.confirm("Confermi l'invio delle schede?",
+                                       scheda.confirmedSend,
+                                       "Conferma invio",
+                                       "Sì,No");
+    },
+	confirmedSend: function(buttonIndex) {
+         
+        if (buttonIndex == 1) { 
+             
+            //Istruzioni per l'invio
+            navigator.notification.alert("Schede inviate!", function(){}, "Informazione");
+        }
+    }
+};
+var app = {
+	exit: function() {
+ 
+    navigator.notification.confirm(
+          "Vuoi uscire dall'applicazione?",
+            function(buttonIndex) {
+                 
+                if (buttonIndex == 1) navigator.app.exitApp();
+            },
+            "Informazione",
+            "Sì,No");
+	}
 };
